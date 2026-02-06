@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Excavation Estimation</title>
+<link rel="stylesheet" href="../../style.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+  <p>Excavation Estimation</p>
+</header>
+
+<div class="container">
+
+  <div class="section">
+    <h2>A) Excavation Dimensions</h2>
+
+    <label>Length (ft)</label>
+    <input id="length" value="40">
+
+    <label>Width (ft)</label>
+    <input id="width" value="30">
+
+    <label>Depth (ft)</label>
+    <input id="depth" value="5">
+  </div>
+
+  <div class="section">
+    <h2>B) Cost Details</h2>
+
+    <label>Rate (₹ / CFT)</label>
+    <input id="rate" value="12">
+
+    <button onclick="calculate()">Calculate</button>
+  </div>
+
+  <div class="section">
+    <h2>C) Result</h2>
+    <p><strong>Total Cost: ₹ <span id="total">0</span></strong></p>
+  </div>
+
+</div>
+
+<script>
+function calculate() {
+  const L = Number(document.getElementById("length").value);
+  const W = Number(document.getElementById("width").value);
+  const D = Number(document.getElementById("depth").value);
+  const rate = Number(document.getElementById("rate").value);
+
+  const volume = L * W * D;
+  const totalCost = volume * rate;
+
+  document.getElementById("total").innerText = totalCost.toFixed(2);
+
+  // ✅ THIS IS THE MOST IMPORTANT LINE
+  localStorage.setItem("excavationCost", totalCost.toFixed(2));
+}
+</script>
+
+</body>
+</html>

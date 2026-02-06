@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RCC Column Calculator</title>
+
+<!-- Main site UI -->
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.result-box{
+  background:#f1f8ff;
+  padding:16px;
+  margin-top:20px;
+  border-radius:10px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+
+  <div class="page-title">
+    <h2>RCC Column Estimation</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+  <div class="card">
+    <h2>RCC Column Calculator</h2>
+  </div>
+
+  <div class="card">
+
+    <!-- A) COLUMN DIMENSIONS -->
+    <div class="section">
+      <h3>A) Column Dimensions</h3>
+
+      <label>Number of Columns</label>
+      <input type="number" id="nos" value="4">
+
+      <label>Column Length (ft)</label>
+      <input type="number" id="L" value="1">
+
+      <label>Column Width (ft)</label>
+      <input type="number" id="W" value="1">
+
+      <label>Column Height (ft)</label>
+      <input type="number" id="H" value="10">
+    </div>
+
+    <!-- B) REINFORCEMENT -->
+    <div class="section">
+      <h3>B) Reinforcement Details</h3>
+
+      <label>Steel Percentage (%)</label>
+      <input type="number" id="steelPercent" value="2">
+
+      <label>Steel Rate (₹ / kg)</label>
+      <input type="number" id="steelRate" value="70">
+    </div>
+
+    <!-- C) CONCRETE MIX -->
+    <div class="section">
+      <h3>C) Concrete Mix</h3>
+
+      <label>Concrete Grade</label>
+      <input type="text" value="M20" disabled>
+
+      <label>Cement Rate (₹ / bag)</label>
+      <input type="number" id="cementRate" value="420">
+
+      <label>Sand Rate (₹ / cft)</label>
+      <input type="number" id="sandRate" value="60">
+
+      <label>Aggregate Rate (₹ / cft)</label>
+      <input type="number" id="aggRate" value="55">
+    </div>
+
+    <button onclick="calculateColumn()">Calculate</button>
+
+    <div id="result" class="result-box"></div>
+
+  </div>
+</main>
+
+<script>
+function calculateColumn(){
+
+  const nos = +document.getElementById("nos").value;
+  const L = +document.getElementById("L").value;
+  const W = +document.getElementById("W").value;
+  const H = +document.getElementById("H").value;
+
+  const steelPercent = +document.getElementById("steelPercent").value;
+  const steelRate = +document.getElementById("steelRate").value;
+
+  const cementRate = +document.getElementById("cementRate").value;
+  const sandRate = +document.getElementById("sandRate").value;
+  const aggRate = +document.getElementById("aggRate").value;
+
+  if(!nos || !L || !W || !H){
+    document.getElementById("result").innerHTML = "Enter all values";
+    return;
+  }
+
+  // Volume
+  const volumeCft = nos * L * W * H;
+  const volumeCum = volumeCft / 35.3147;
+
+  // Steel
+  const steelKg = volumeCum * 7850 * (steelPercent / 100);
+  const steelCost = steelKg * steelRate;
+
+  // Concrete material constants (M20 approx)
+  const cementBags = volumeCum * 8;
+  const sandCft = volumeCum * 15;
+  const aggCft = volumeCum * 30;
+
+  const cementCost = cementBags * cementRate;
+  const sandCost = sandCft * sandRate;
+  const aggCost = aggCft * aggRate;
+
+  const totalCost = steelCost + cementCost + sandCost + aggCost;
+
+  // ✅ SAVE TO BOQ (THIS IS THE KEY POINT)
+  localStorage.setItem("rccColumnCost", totalCost.toFixed(0));
+
+  document.getElementById("result").innerHTML = `
+    Concrete Volume: <b>${volumeCum.toFixed(2)} m³</b><br><br>
+
+    Steel: ${steelKg.toFixed(1)} kg (₹ ${steelCost.toFixed(0)})<br>
+    Cement: ${cementBags.toFixed(1)} bags (₹ ${cementCost.toFixed(0)})<br>
+    Sand Cost: ₹ ${sandCost.toFixed(0)}<br>
+    Aggregate Cost: ₹ ${aggCost.toFixed(0)}<br><br>
+
+    <b>Total RCC Column Cost: ₹ ${totalCost.toFixed(0)}</b>
+  `;
+}
+</script>
+
+</body>
+</html>

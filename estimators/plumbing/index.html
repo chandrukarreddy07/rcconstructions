@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Plumbing Estimation</title>
+
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.result-box{
+  background:#f1f8ff;
+  padding:16px;
+  margin-top:20px;
+  border-radius:10px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+  <div class="page-title">
+    <h2>Plumbing Estimation</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+<div class="card">
+
+  <!-- A) PLUMBING FIXTURES -->
+  <div class="section">
+    <h3>A) Plumbing Fixtures</h3>
+
+    <label>Bathrooms (Nos)</label>
+    <input type="number" id="bathrooms" value="2">
+
+    <label>Toilets (Nos)</label>
+    <input type="number" id="toilets" value="2">
+
+    <label>Kitchens (Nos)</label>
+    <input type="number" id="kitchens" value="1">
+
+    <label>Wash Basins (Nos)</label>
+    <input type="number" id="basins" value="3">
+  </div>
+
+  <!-- B) PIPE LENGTH -->
+  <div class="section">
+    <h3>B) Pipe Length</h3>
+
+    <label>Water Supply Pipe Length (ft)</label>
+    <input type="number" id="waterPipe" value="200">
+
+    <label>Drainage Pipe Length (ft)</label>
+    <input type="number" id="drainPipe" value="150">
+  </div>
+
+  <!-- C) COST DETAILS -->
+  <div class="section">
+    <h3>C) Cost Details</h3>
+
+    <label>Plumbing Cost per Bathroom (₹)</label>
+    <input type="number" id="bathroomRate" value="18000">
+
+    <label>Pipe Cost per ft (₹)</label>
+    <input type="number" id="pipeRate" value="120">
+
+    <label>Labour Cost (₹)</label>
+    <input type="number" id="labourCost" value="15000">
+  </div>
+
+  <button onclick="calculatePlumbing()">Calculate</button>
+
+  <div id="result" class="result-box"></div>
+
+</div>
+
+</main>
+
+<script>
+function calculatePlumbing(){
+
+  const bathrooms = +document.getElementById("bathrooms").value;
+  const waterPipe = +document.getElementById("waterPipe").value;
+  const drainPipe = +document.getElementById("drainPipe").value;
+
+  const bathroomRate = +document.getElementById("bathroomRate").value;
+  const pipeRate = +document.getElementById("pipeRate").value;
+  const labourCost = +document.getElementById("labourCost").value;
+
+  const bathroomCost = bathrooms * bathroomRate;
+  const pipeCost = (waterPipe + drainPipe) * pipeRate;
+
+  const total = bathroomCost + pipeCost + labourCost;
+
+  document.getElementById("result").innerHTML = `
+    Bathroom Plumbing Cost: ₹${bathroomCost.toLocaleString("en-IN")}<br>
+    Pipe Cost: ₹${pipeCost.toLocaleString("en-IN")}<br>
+    Labour Cost: ₹${labourCost.toLocaleString("en-IN")}<br><br>
+    <b>Total Plumbing Cost: ₹${total.toLocaleString("en-IN")}</b>
+  `;
+
+  /* ✅ SAVE TO BOQ */
+  localStorage.setItem("plumbingCost", total);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Plaster Estimation</title>
+
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.result-box{
+  background:#f1f8ff;
+  padding:16px;
+  margin-top:20px;
+  border-radius:10px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+  <div class="page-title">
+    <h2>Plaster Estimation</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+<div class="card">
+  <h2>Plaster Calculator</h2>
+</div>
+
+<div class="card">
+
+<!-- A -->
+<div class="section">
+  <h3>A) Wall Area</h3>
+  <label>Total Wall Area (sqft)</label>
+  <input type="number" id="area" value="1000">
+</div>
+
+<!-- B -->
+<div class="section">
+  <h3>B) Plaster Details</h3>
+
+  <label>Plaster Thickness (mm)</label>
+  <input type="number" id="thickness" value="12">
+
+  <label>Mix Ratio (Cement : Sand)</label>
+  <input type="text" id="ratio" value="1:6">
+</div>
+
+<!-- C -->
+<div class="section">
+  <h3>C) Cost Details</h3>
+
+  <label>Cement Rate (₹ / bag)</label>
+  <input type="number" id="cementRate" value="420">
+
+  <label>Sand Rate (₹ / cft)</label>
+  <input type="number" id="sandRate" value="60">
+</div>
+
+<button onclick="calculatePlaster()">Calculate</button>
+
+<div id="result" class="result-box"></div>
+
+</div>
+</main>
+
+<script>
+function calculatePlaster(){
+  const area = +document.getElementById("area").value;
+  const thickness = +document.getElementById("thickness").value / 1000;
+  const cementRate = +document.getElementById("cementRate").value;
+  const sandRate = +document.getElementById("sandRate").value;
+
+  const volume = area * thickness * 10.764;
+  const cementBags = volume * 0.35;
+  const sandCft = volume * 1.15;
+
+  const totalCost =
+    (cementBags * cementRate) +
+    (sandCft * sandRate);
+
+  document.getElementById("result").innerHTML = `
+    Cement: ${cementBags.toFixed(1)} Bags<br>
+    Sand: ${sandCft.toFixed(1)} CFT<br><br>
+    <b>Total Cost: ₹ ${totalCost.toFixed(0)}</b>
+  `;
+
+  /* 🔥 SAVE TO BOQ */
+  localStorage.setItem("plasterCost", totalCost.toFixed(0));
+}
+</script>
+
+</body>
+</html>

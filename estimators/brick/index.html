@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Brick Masonry Estimation</title>
+
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.section{display:block!important}
+.section input{width:100%}
+
+.opening-row{
+  display:flex;
+  gap:12px;
+}
+.opening-row input{width:50%}
+
+.result-row{
+  padding:10px;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  margin-bottom:8px;
+  background:#f9fafb;
+}
+
+.calc-btn{margin:30px 0}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+  <div class="page-title">
+    <h2>Brick Masonry Estimation</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+<!-- A) WALL -->
+<div class="card section">
+<h3>A) Wall Dimensions</h3>
+<label>Wall Length (ft)</label>
+<input id="wallL" value="48">
+<label>Wall Height (ft)</label>
+<input id="wallH" value="9">
+<label>Wall Thickness (ft)</label>
+<input id="wallT" value="0.66">
+</div>
+
+<!-- B) OPENINGS -->
+<div class="card section">
+<h3>B) Openings</h3>
+
+<label>Door size (L × H)</label>
+<div class="opening-row">
+<input id="doorL" value="3">
+<input id="doorH" value="7">
+</div>
+
+<label>Door quantity</label>
+<input id="doorQty" value="1">
+
+<label style="margin-top:10px;">Window size (L × H)</label>
+<div class="opening-row">
+<input id="winL" value="4">
+<input id="winH" value="5">
+</div>
+
+<label>Window quantity</label>
+<input id="winQty" value="1">
+
+<label>Other opening area (sqft)</label>
+<input id="otherOpen" value="0">
+</div>
+
+<!-- C) MORTAR -->
+<div class="card section">
+<h3>C) Mortar & Mix</h3>
+<label>Mortar Thickness (mm)</label>
+<input id="mortarThk" value="15">
+<label>Mix Ratio (Cement : Sand)</label>
+<input id="mixRatio" value="6">
+</div>
+
+<button class="calc-btn" onclick="calculateBrick()">CALCULATE</button>
+
+<!-- D) MATERIAL -->
+<div class="card section">
+<h3>D) Material Requirement</h3>
+
+<div class="result-row">Wall Volume: <b><span id="wallVol">0</span> ft³</b></div>
+<div class="result-row">Bricks Required: <b><span id="bricks">0</span></b></div>
+<div class="result-row">Cement Required: <b><span id="cement">0</span> Bags</b></div>
+<div class="result-row">Sand Required: <b><span id="sand">0</span> CFT</b></div>
+</div>
+
+<!-- E) COST -->
+<div class="card section">
+<h3>E) Cost Estimate</h3>
+
+<label>Brick Rate (₹/No)</label>
+<input id="brickRate" value="10">
+
+<label>Cement Rate (₹/Bag)</label>
+<input id="cementRate" value="420">
+
+<label>Sand Rate (₹/CFT)</label>
+<input id="sandRate" value="70">
+
+<button style="margin-top:20px" onclick="calculateCost()">CALCULATE COST</button>
+
+<div class="result-row" style="margin-top:15px;">
+Total Cost: ₹ <b><span id="totalCost">0</span></b>
+</div>
+</div>
+
+</main>
+
+<script>
+let bricksReq=0, cementReq=0, sandReq=0;
+
+function calculateBrick(){
+  const netArea =
+    (wallL.value*wallH.value) -
+    ((doorL.value*doorH.value*doorQty.value) +
+     (winL.value*winH.value*winQty.value) +
+     Number(otherOpen.value));
+
+  const volume = netArea * wallT.value;
+
+  bricksReq = Math.ceil(volume * 13.5);
+  cementReq = Math.ceil(bricksReq * 0.02);
+  sandReq = Math.ceil(bricksReq * 0.05);
+
+  wallVol.innerText = volume.toFixed(2);
+  bricks.innerText = bricksReq;
+  cement.innerText = cementReq;
+  sand.innerText = sandReq;
+}
+
+function calculateCost(){
+  const total =
+    bricksReq*brickRate.value +
+    cementReq*cementRate.value +
+    sandReq*sandRate.value;
+
+  totalCost.innerText = total.toLocaleString("en-IN");
+
+  // ✅ SEND TO BOQ
+  localStorage.setItem("brickCost", total);
+}
+</script>
+
+</body>
+</html>

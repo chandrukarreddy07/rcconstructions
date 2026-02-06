@@ -1,0 +1,92 @@
+/* ===== GLOBAL ===== */
+* {
+  box-sizing: border-box;
+  font-family: Poppins, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+
+/* ===== HEADER ===== */
+header {
+  text-align: center;
+  padding: 26px 20px 10px; /* FIXED SPACING */
+  color: white;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 36px;
+  letter-spacing: 2px;
+}
+
+header p {
+  margin-top: 6px;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 900px;
+  margin: -10px auto 60px; /* PULLS CONTENT UP */
+  padding: 20px;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: #ffffff;
+  margin: 25px 0;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  animation: fadeUp 0.6s ease;
+}
+
+/* ===== SECTION HEADINGS ===== */
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 20px;
+  color: #0f3c5c;
+  font-weight: 600;
+}
+
+/* ===== FORM ===== */
+label {
+  font-weight: 500;
+  margin-top: 12px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+}
+
+/* ===== BUTTON ===== */
+button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #38bdf8;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0ea5e9;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to { opacity:1; transform: translateY(0); }
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PCC Calculator</title>
+
+<!-- MAIN SITE UI -->
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.result-box{
+  background:#f1f8ff;
+  padding:16px;
+  margin-top:20px;
+  border-radius:10px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+
+  <div class="page-title">
+    <h2>PCC Estimation</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+  <div class="card">
+    <h2>PCC Calculator</h2>
+  </div>
+
+  <div class="card">
+
+    <!-- A) PCC DIMENSIONS -->
+    <div class="section">
+      <h3>A) PCC Dimensions</h3>
+
+      <label>Length (ft)</label>
+      <input type="number" id="L" value="40">
+
+      <label>Width (ft)</label>
+      <input type="number" id="W" value="30">
+
+      <label>Thickness (ft)</label>
+      <input type="number" id="T" value="0.33">
+    </div>
+
+    <!-- B) CONCRETE MIX -->
+    <div class="section">
+      <h3>B) Concrete Mix</h3>
+
+      <label>Mix Ratio (Cement : Sand : Aggregate)</label>
+      <input type="text" value="1 : 4 : 8" disabled>
+    </div>
+
+    <!-- C) COST DETAILS -->
+    <div class="section">
+      <h3>C) Cost Details</h3>
+
+      <label>Cement Rate (₹ / Bag)</label>
+      <input type="number" id="cementRate" value="420">
+
+      <label>Sand Rate (₹ / cft)</label>
+      <input type="number" id="sandRate" value="60">
+
+      <label>Aggregate Rate (₹ / cft)</label>
+      <input type="number" id="aggRate" value="55">
+    </div>
+
+    <button onclick="calculatePCC()">Calculate PCC</button>
+
+    <div id="result" class="result-box"></div>
+
+  </div>
+</main>
+
+<script>
+function calculatePCC(){
+
+  const L = Number(document.getElementById("L").value);
+  const W = Number(document.getElementById("W").value);
+  const T = Number(document.getElementById("T").value);
+
+  const cementRate = Number(document.getElementById("cementRate").value);
+  const sandRate = Number(document.getElementById("sandRate").value);
+  const aggRate = Number(document.getElementById("aggRate").value);
+
+  if(!L || !W || !T){
+    document.getElementById("result").innerHTML = "⚠️ Enter all dimension values";
+    return;
+  }
+
+  const volumeCft = L * W * T;
+  const volumeCum = volumeCft / 35.3147;
+
+  /* PCC (1:4:8) STANDARD */
+  const cementBags = volumeCum * 6.4;
+  const sandCft = volumeCft * 0.44;
+  const aggCft = volumeCft * 0.88;
+
+  const totalCost =
+    (cementBags * cementRate) +
+    (sandCft * sandRate) +
+    (aggCft * aggRate);
+
+  /* ✅ AUTO SEND TO BOQ */
+  localStorage.setItem("pccCost", totalCost.toFixed(0));
+
+  document.getElementById("result").innerHTML = `
+    PCC Volume : <b>${volumeCft.toFixed(2)} cft</b><br>
+    PCC Volume : <b>${volumeCum.toFixed(2)} m³</b><br><br>
+
+    Cement : ${cementBags.toFixed(2)} bags<br>
+    Sand : ${sandCft.toFixed(2)} cft<br>
+    Aggregate : ${aggCft.toFixed(2)} cft<br><br>
+
+    PCC Cost : <b>₹ ${totalCost.toFixed(0)}</b><br>
+    ✅ Added to Final BOQ
+  `;
+}
+</script>
+
+</body>
+</html>

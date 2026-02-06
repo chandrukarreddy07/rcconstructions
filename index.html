@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RC Constructions – Estimation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+
+<!-- 🔒 Redirect to Premium Login if not logged in (with 30 min auto-expiry) -->
+<script>
+  (function () {
+    try {
+      const ok = localStorage.getItem('rcLogin') === 'yes';
+      const exp = parseInt(localStorage.getItem('rcLoginExpiry') || '0', 10);
+      const now = Date.now();
+
+      // Expired session => clear
+      if (exp && now > exp) {
+        localStorage.removeItem('rcLogin');
+        localStorage.removeItem('rcLoginExpiry');
+      }
+
+      const stillOk = localStorage.getItem('rcLogin') === 'yes';
+      const stillExp = parseInt(localStorage.getItem('rcLoginExpiry') || '0', 10);
+
+      if (!stillOk || !stillExp) {
+        window.location.href = "login/index.html";
+        return;
+      }
+
+      // Auto logout at expiry
+      const left = stillExp - Date.now();
+      if (left > 0) {
+        setTimeout(() => {
+          localStorage.removeItem('rcLogin');
+          localStorage.removeItem('rcLoginExpiry');
+          window.location.href = "login/index.html";
+        }, left);
+      }
+    } catch (e) {
+      window.location.href = "login/index.html";
+    }
+  })();
+</script>
+
+<style>
+/* ===== PAGE RESET ===== */
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+}
+/* ===== GLASS UI ONLY FOR MAIN PAGE ===== */
+
+main.container > .section {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+}
+
+/* Section titles */
+main.container > .section h2 {
+  color: #ffffff !important;
+}
+
+/* Links */
+main.container > .section a {
+  background: rgba(255,255,255,0.18) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* Hover */
+main.container > .section a:hover {
+  background: rgba(56,189,248,0.85) !important;
+  color: #000 !important;
+}
+
+
+/* ===== LOGIN PAGE ===== */
+#loginPage{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0f172a;
+}
+
+.login-box{
+  background:#ffffff;
+  padding:30px;
+  width:320px;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.login-box h2{
+  margin-bottom:20px;
+  color:#0f172a;
+}
+
+.login-box input{
+  width:100%;
+  padding:10px;
+  margin-bottom:12px;
+  border-radius:6px;
+  border:1px solid #cbd5e1;
+  font-size:14px;
+}
+
+/* LOGIN BUTTON */
+.login-box button{
+  width:100%;
+  padding:10px;
+  background:#38bdf8;
+  color:#0f172a;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.login-box button:hover{
+  background:#0ea5e9;
+  color:#ffffff;
+}
+
+/* ===== LOGOUT BUTTON ===== */
+.logout-btn{
+  margin:40px auto 20px;
+  display:block;
+  padding:8px 22px;
+  font-size:14px;
+  background:#38bdf8;
+  color:#0f172a;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.logout-btn:hover{
+  background:#0ea5e9;
+  color:#ffffff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="video-bg">
+  <video autoplay muted loop playsinline>
+    <source src="assets/bg.mp4" type="video/mp4">
+  </video>
+</div>
+
+
+<!-- ================= LOGIN PAGE ================= -->
+<div id="loginPage">
+  <div class="login-box">
+    <h2>RC CONSTRUCTIONS</h2>
+    <input id="user" placeholder="Username">
+    <input id="pass" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="err" style="color:red;"></p>
+  </div>
+</div>
+
+<!-- ================= MAIN PAGE ================= -->
+<div id="mainPage" style="display:none;">
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+  <p>Buildings • Interior • Estimation • Structure</p>
+</header>
+
+<main class="container">
+
+<section class="section">
+  <h2>Foundation</h2>
+  <a class="card" href="estimators/excavation/index.html">Excavation</a>
+  <a class="card" href="estimators/pcc/index.html">PCC</a>
+</section>
+
+<section class="section">
+  <h2>RCC Structure</h2>
+  <a class="card" href="estimators/rcc-column/index.html">RCC Column</a>
+  <a class="card" href="estimators/rcc-beam/index.html">RCC Beam</a>
+  <a class="card" href="estimators/rcc-slab/index.html">RCC Slab</a>
+</section>
+
+<section class="section">
+  <h2>Masonry & Finishing</h2>
+  <a class="card" href="estimators/brick/index.html">Brick Masonry</a>
+  <a class="card" href="estimators/plaster/index.html">Plaster</a>
+  <a class="card" href="estimators/flooring/index.html">Flooring</a>
+</section>
+
+<section class="section">
+  <h2>Openings</h2>
+  <a class="card" href="estimators/doors-windows/index.html">Doors & Windows</a>
+</section>
+
+<section class="section">
+  <h2>Services</h2>
+  <a class="card" href="estimators/electrical/index.html">Electrical</a>
+  <a class="card" href="estimators/plumbing/index.html">Plumbing</a>
+</section>
+
+<section class="section">
+  <h2>Cost & BOQ</h2>
+  <a class="card highlight" href="estimators/boq/index.html">Final BOQ</a>
+</section>
+
+<button class="logout-btn" onclick="logout()">Logout</button>
+
+</main>
+</div>
+
+<script>
+const USERS = {
+  "Chandrukar Reddy":"Chandrukar@7",
+  "Revanth Reddy":"Revanth@10"
+};
+
+function login(){
+  const u = user.value.trim();
+  const p = pass.value.trim();
+  if(USERS[u] === p){
+    localStorage.setItem("rcLogin","yes");
+    showMain();
+  } else {
+    err.innerText = "Invalid login";
+  }
+}
+
+function logout(){
+  localStorage.removeItem("rcLogin");
+  location.reload();
+}
+
+function showMain(){
+  loginPage.style.display="none";
+  mainPage.style.display="block";
+}
+
+if(localStorage.getItem("rcLogin")==="yes"){
+  showMain();
+}
+</script>
+
+</body>
+</html>

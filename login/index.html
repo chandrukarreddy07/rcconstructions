@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RC Constructions • Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Background Video -->
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="login-bg.mp4" type="video/mp4" />
+  </video>
+  <div class="overlay"></div>
+
+  <!-- Login UI -->
+  <div class="wrapper">
+    <div class="login-card">
+      <div class="badge">ADMIN LOGIN</div>
+
+      <h1>RC CONSTRUCTIONS</h1>
+      <p class="sub">Buildings • Interior • Estimation • Structure</p>
+
+      <div class="field">
+        <label>Username</label>
+        <input id="user" type="text" placeholder="Enter username" />
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input id="pass" type="password" placeholder="Enter password" />
+      </div>
+
+      <button class="btn" onclick="login()">Login</button>
+
+      <p id="err" class="error"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

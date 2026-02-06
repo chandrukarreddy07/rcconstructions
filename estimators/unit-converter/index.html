@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unit Converter</title>
+
+<!-- Main Site UI -->
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.result-box{
+  background:#f1f8ff;
+  padding:16px;
+  margin-top:20px;
+  border-radius:10px;
+  font-weight:600;
+}
+select{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+
+  <div class="page-title">
+    <h2>Unit Converter</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+  <div class="card">
+    <h2>Unit Converter</h2>
+  </div>
+
+  <div class="card">
+
+    <!-- A) LENGTH -->
+    <div class="section">
+      <h3>A) Length</h3>
+
+      <label>Value</label>
+      <input type="number" id="lenValue" value="1">
+
+      <label>From</label>
+      <select id="lenFrom">
+        <option value="ft">Feet</option>
+        <option value="m">Meter</option>
+        <option value="mm">Millimeter</option>
+      </select>
+
+      <label>To</label>
+      <select id="lenTo">
+        <option value="m">Meter</option>
+        <option value="ft">Feet</option>
+        <option value="mm">Millimeter</option>
+      </select>
+
+      <button onclick="convertLength()">Convert</button>
+      <div id="lenResult" class="result-box"></div>
+    </div>
+
+    <!-- B) AREA -->
+    <div class="section">
+      <h3>B) Area</h3>
+
+      <label>Value</label>
+      <input type="number" id="areaValue" value="100">
+
+      <label>From</label>
+      <select id="areaFrom">
+        <option value="sqft">Sqft</option>
+        <option value="sqm">Sqm</option>
+      </select>
+
+      <label>To</label>
+      <select id="areaTo">
+        <option value="sqm">Sqm</option>
+        <option value="sqft">Sqft</option>
+      </select>
+
+      <button onclick="convertArea()">Convert</button>
+      <div id="areaResult" class="result-box"></div>
+    </div>
+
+    <!-- C) VOLUME -->
+    <div class="section">
+      <h3>C) Volume</h3>
+
+      <label>Value</label>
+      <input type="number" id="volValue" value="10">
+
+      <label>From</label>
+      <select id="volFrom">
+        <option value="cft">Cubic Feet</option>
+        <option value="cum">Cubic Meter</option>
+      </select>
+
+      <label>To</label>
+      <select id="volTo">
+        <option value="cum">Cubic Meter</option>
+        <option value="cft">Cubic Feet</option>
+      </select>
+
+      <button onclick="convertVolume()">Convert</button>
+      <div id="volResult" class="result-box"></div>
+    </div>
+
+    <!-- D) WEIGHT -->
+    <div class="section">
+      <h3>D) Weight</h3>
+
+      <label>Value</label>
+      <input type="number" id="wtValue" value="100">
+
+      <label>From</label>
+      <select id="wtFrom">
+        <option value="kg">Kg</option>
+        <option value="ton">Ton</option>
+      </select>
+
+      <label>To</label>
+      <select id="wtTo">
+        <option value="ton">Ton</option>
+        <option value="kg">Kg</option>
+      </select>
+
+      <button onclick="convertWeight()">Convert</button>
+      <div id="wtResult" class="result-box"></div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+function convertLength(){
+  const v = +document.getElementById("lenValue").value;
+  const from = document.getElementById("lenFrom").value;
+  const to = document.getElementById("lenTo").value;
+
+  let meters;
+  if(from==="ft") meters = v * 0.3048;
+  if(from==="mm") meters = v / 1000;
+  if(from==="m") meters = v;
+
+  let result;
+  if(to==="ft") result = meters / 0.3048;
+  if(to==="mm") result = meters * 1000;
+  if(to==="m") result = meters;
+
+  document.getElementById("lenResult").innerHTML = `Result: <b>${result.toFixed(4)}</b>`;
+}
+
+function convertArea(){
+  const v = +document.getElementById("areaValue").value;
+  const from = document.getElementById("areaFrom").value;
+  const to = document.getElementById("areaTo").value;
+
+  let sqm = from==="sqft" ? v * 0.092903 : v;
+  let result = to==="sqft" ? sqm / 0.092903 : sqm;
+
+  document.getElementById("areaResult").innerHTML = `Result: <b>${result.toFixed(3)}</b>`;
+}
+
+function convertVolume(){
+  const v = +document.getElementById("volValue").value;
+  const from = document.getElementById("volFrom").value;
+  const to = document.getElementById("volTo").value;
+
+  let cum = from==="cft" ? v / 35.3147 : v;
+  let result = to==="cft" ? cum * 35.3147 : cum;
+
+  document.getElementById("volResult").innerHTML = `Result: <b>${result.toFixed(3)}</b>`;
+}
+
+function convertWeight(){
+  const v = +document.getElementById("wtValue").value;
+  const from = document.getElementById("wtFrom").value;
+  const to = document.getElementById("wtTo").value;
+
+  let kg = from==="ton" ? v * 1000 : v;
+  let result = to==="ton" ? kg / 1000 : kg;
+
+  document.getElementById("wtResult").innerHTML = `Result: <b>${result.toFixed(3)}</b>`;
+}
+</script>
+
+</body>
+</html>

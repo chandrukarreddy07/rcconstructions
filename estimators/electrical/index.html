@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Electrical Estimation</title>
+
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.result-box{
+  background:#f1f8ff;
+  padding:16px;
+  margin-top:20px;
+  border-radius:10px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+  <div class="page-title">
+    <h2>Electrical Estimation</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+<div class="card">
+
+  <!-- A) ELECTRICAL POINTS -->
+  <div class="section">
+    <h3>A) Electrical Points</h3>
+
+    <label>Light Points</label>
+    <input type="number" id="lightPoints" value="20">
+
+    <label>Fan Points</label>
+    <input type="number" id="fanPoints" value="8">
+
+    <label>Socket Points</label>
+    <input type="number" id="socketPoints" value="15">
+
+    <label>Power Plug Points</label>
+    <input type="number" id="powerPoints" value="6">
+  </div>
+
+  <!-- B) FIXTURES -->
+  <div class="section">
+    <h3>B) Fixtures</h3>
+
+    <label>Tube Lights</label>
+    <input type="number" id="tubeLights" value="6">
+
+    <label>LED Lights</label>
+    <input type="number" id="ledLights" value="12">
+
+    <label>Ceiling Fans</label>
+    <input type="number" id="ceilingFans" value="8">
+  </div>
+
+  <!-- C) COST DETAILS -->
+  <div class="section">
+    <h3>C) Cost Details</h3>
+
+    <label>Wiring Cost per Point (₹)</label>
+    <input type="number" id="wiringRate" value="650">
+
+    <label>Fixture Installation Cost (₹ / No)</label>
+    <input type="number" id="fixtureRate" value="300">
+
+    <label>DB & Main Connection Cost (₹)</label>
+    <input type="number" id="dbCost" value="15000">
+  </div>
+
+  <button onclick="calculateElectrical()">Calculate</button>
+
+  <div id="result" class="result-box"></div>
+
+</div>
+
+</main>
+
+<script>
+function calculateElectrical(){
+
+  const lightPoints = +document.getElementById("lightPoints").value;
+  const fanPoints = +document.getElementById("fanPoints").value;
+  const socketPoints = +document.getElementById("socketPoints").value;
+  const powerPoints = +document.getElementById("powerPoints").value;
+
+  const tubeLights = +document.getElementById("tubeLights").value;
+  const ledLights = +document.getElementById("ledLights").value;
+  const ceilingFans = +document.getElementById("ceilingFans").value;
+
+  const wiringRate = +document.getElementById("wiringRate").value;
+  const fixtureRate = +document.getElementById("fixtureRate").value;
+  const dbCost = +document.getElementById("dbCost").value;
+
+  const totalPoints =
+    lightPoints + fanPoints + socketPoints + powerPoints;
+
+  const wiringCost = totalPoints * wiringRate;
+
+  const totalFixtures =
+    tubeLights + ledLights + ceilingFans;
+
+  const fixtureCost = totalFixtures * fixtureRate;
+
+  const total = wiringCost + fixtureCost + dbCost;
+
+  document.getElementById("result").innerHTML = `
+    Wiring Cost: ₹${wiringCost.toLocaleString("en-IN")}<br>
+    Fixture Installation Cost: ₹${fixtureCost.toLocaleString("en-IN")}<br>
+    DB & Main Connection: ₹${dbCost.toLocaleString("en-IN")}<br><br>
+    <b>Total Electrical Cost: ₹${total.toLocaleString("en-IN")}</b>
+  `;
+
+  /* ✅ SAVE TO BOQ */
+  localStorage.setItem("electricalCost", total);
+}
+</script>
+
+</body>
+</html>

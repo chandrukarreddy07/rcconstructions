@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Doors & Windows Estimation</title>
+
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#0f172a;
+}
+
+h1,h2{
+  color:#fff;
+  text-align:center;
+}
+
+.container{
+  max-width:900px;
+  margin:30px auto;
+}
+
+.card{
+  background:#f8fafc;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+input{
+  width:100%;
+  padding:8px;
+  margin-top:5px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+.btn{
+  width:100%;
+  padding:12px;
+  background:#38bdf8;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:15px;
+}
+
+.result{
+  background:#e2e8f0;
+  padding:15px;
+  border-radius:10px;
+  margin-top:15px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>RC CONSTRUCTIONS</h1>
+<h2>Doors & Windows Estimation</h2>
+
+<div class="container">
+
+  <!-- A) DOORS -->
+  <div class="card">
+    <h3>A) Doors</h3>
+
+    <label>Number of Doors</label>
+    <input type="number" id="doorCount" value="6">
+
+    <label>Door Width (ft)</label>
+    <input type="number" value="3">
+
+    <label>Door Height (ft)</label>
+    <input type="number" value="7">
+
+    <label>Door Rate (₹ / No)</label>
+    <input type="number" id="doorRate" value="4500">
+  </div>
+
+  <!-- B) WINDOWS -->
+  <div class="card">
+    <h3>B) Windows</h3>
+
+    <label>Number of Windows</label>
+    <input type="number" id="windowCount" value="8">
+
+    <label>Window Width (ft)</label>
+    <input type="number" value="4">
+
+    <label>Window Height (ft)</label>
+    <input type="number" value="4">
+
+    <label>Window Rate (₹ / No)</label>
+    <input type="number" id="windowRate" value="3000">
+  </div>
+
+  <!-- C) LABOUR -->
+  <div class="card">
+    <h3>C) Labour Cost</h3>
+
+    <label>Fixing Labour Cost (₹ / opening)</label>
+    <input type="number" id="labourRate" value="500">
+  </div>
+
+  <button class="btn" onclick="calculateDoorsWindows()">Calculate</button>
+
+  <!-- RESULT -->
+  <div class="card result">
+    Doors Cost: ₹ <span id="doorsCost">0</span><br>
+    Windows Cost: ₹ <span id="windowsCost">0</span><br>
+    Labour Cost: ₹ <span id="labourCost">0</span><br><br>
+    <strong>Total Doors & Windows Cost: ₹ <span id="totalCost">0</span></strong>
+  </div>
+
+</div>
+
+<script>
+function calculateDoorsWindows(){
+
+  const doorCount   = Number(document.getElementById("doorCount").value || 0);
+  const doorRate    = Number(document.getElementById("doorRate").value || 0);
+
+  const windowCount = Number(document.getElementById("windowCount").value || 0);
+  const windowRate  = Number(document.getElementById("windowRate").value || 0);
+
+  const labourRate  = Number(document.getElementById("labourRate").value || 0);
+
+  const doorsCost   = doorCount * doorRate;
+  const windowsCost = windowCount * windowRate;
+  const labourCost  = (doorCount + windowCount) * labourRate;
+
+  const total = doorsCost + windowsCost + labourCost;
+
+  document.getElementById("doorsCost").innerText   = doorsCost;
+  document.getElementById("windowsCost").innerText = windowsCost;
+  document.getElementById("labourCost").innerText  = labourCost;
+  document.getElementById("totalCost").innerText   = total;
+
+  // ✅ SAVE TO BOQ
+  localStorage.setItem("doorsCost", total);
+}
+</script>
+
+</body>
+</html>

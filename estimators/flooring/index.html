@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flooring Estimation</title>
+
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.result-box{
+  background:#f1f8ff;
+  padding:16px;
+  margin-top:20px;
+  border-radius:10px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+  <div class="page-title">
+    <h2>Flooring Estimation</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+<div class="card">
+  <h2>Flooring Calculator</h2>
+</div>
+
+<div class="card">
+
+<!-- A -->
+<div class="section">
+  <h3>A) Floor Area</h3>
+  <label>Total Floor Area (sqft)</label>
+  <input type="number" id="area" value="1000">
+</div>
+
+<!-- B -->
+<div class="section">
+  <h3>B) Tile Details</h3>
+
+  <label>Tile Length (mm)</label>
+  <input type="number" id="tileL" value="600">
+
+  <label>Tile Width (mm)</label>
+  <input type="number" id="tileW" value="600">
+
+  <label>Wastage (%)</label>
+  <input type="number" id="waste" value="10">
+</div>
+
+<!-- C -->
+<div class="section">
+  <h3>C) Cost Details</h3>
+
+  <label>Tile Rate (₹ / sqft)</label>
+  <input type="number" id="tileRate" value="80">
+
+  <label>Labour Rate (₹ / sqft)</label>
+  <input type="number" id="labourRate" value="35">
+</div>
+
+<button onclick="calculateFlooring()">Calculate</button>
+
+<div id="result" class="result-box"></div>
+
+</div>
+</main>
+
+<script>
+function calculateFlooring(){
+  const area = +document.getElementById("area").value;
+  const waste = +document.getElementById("waste").value;
+  const tileRate = +document.getElementById("tileRate").value;
+  const labourRate = +document.getElementById("labourRate").value;
+
+  const totalArea = area * (1 + waste/100);
+
+  const totalCost =
+    (totalArea * tileRate) +
+    (area * labourRate);
+
+  document.getElementById("result").innerHTML = `
+    Area with Wastage: ${totalArea.toFixed(1)} sqft<br><br>
+    <b>Total Cost: ₹ ${totalCost.toFixed(0)}</b>
+  `;
+
+  /* 🔥 SAVE TO BOQ */
+  localStorage.setItem("flooringCost", totalCost.toFixed(0));
+}
+</script>
+
+</body>
+</html>

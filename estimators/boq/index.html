@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Final BOQ & Total Cost</title>
+
+<link rel="stylesheet" href="../../style.css">
+
+<style>
+.boq-box{
+  background:#fff;
+  max-width:900px;
+  margin:auto;
+  padding:25px;
+  border-radius:14px;
+}
+
+.boq-row{
+  display:grid;
+  grid-template-columns:1fr 200px;
+  gap:20px;
+  align-items:center;
+  padding:14px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.boq-row:last-child{
+  border-bottom:none;
+}
+
+.boq-row label{
+  font-weight:600;
+}
+
+.boq-row input{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #cbd5f5;
+}
+
+.total-box{
+  margin-top:25px;
+  background:#e0f2fe;
+  padding:18px;
+  border-radius:10px;
+  font-size:22px;
+  font-weight:700;
+  text-align:center;
+}
+
+.download-btn{
+  margin-top:20px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  background:#38bdf8;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1>RC CONSTRUCTIONS</h1>
+  <div class="page-title">
+    <h2>Final BOQ & Total Cost</h2>
+  </div>
+</header>
+
+<main class="container fade-in">
+
+<div class="boq-box">
+
+  <!-- BOQ ROWS -->
+  <div class="boq-row"><label>Excavation</label><input data-key="excavationCost"></div>
+  <div class="boq-row"><label>PCC</label><input data-key="pccCost"></div>
+  <div class="boq-row"><label>RCC Column</label><input data-key="rccColumnCost"></div>
+  <div class="boq-row"><label>RCC Beam</label><input data-key="rccBeamCost"></div>
+  <div class="boq-row"><label>RCC Slab</label><input data-key="rccSlabCost"></div>
+  <div class="boq-row"><label>Brick Masonry</label><input data-key="brickCost"></div>
+  <div class="boq-row"><label>Plaster</label><input data-key="plasterCost"></div>
+  <div class="boq-row"><label>Flooring</label><input data-key="flooringCost"></div>
+  <div class="boq-row"><label>Doors & Windows</label><input data-key="doorsCost"></div>
+  <div class="boq-row"><label>Electrical</label><input data-key="electricalCost"></div>
+  <div class="boq-row"><label>Plumbing</label><input data-key="plumbingCost"></div>
+
+  <div class="total-box" id="grandTotal">Grand Total : ₹ 0</div>
+
+  <button class="download-btn" onclick="downloadPDF()">Download BOQ PDF</button>
+
+</div>
+</main>
+
+<script>
+const inputs = document.querySelectorAll("input[data-key]");
+
+function loadValues(){
+  inputs.forEach(inp=>{
+    const val = localStorage.getItem(inp.dataset.key);
+    if(val) inp.value = val;
+  });
+}
+
+function calculateTotal(){
+  let total = 0;
+  inputs.forEach(inp=>{
+    total += Number(inp.value || 0);
+  });
+  document.getElementById("grandTotal").innerText =
+    "Grand Total : ₹ " + total.toLocaleString("en-IN");
+}
+
+inputs.forEach(inp=>{
+  inp.addEventListener("input", ()=>{
+    localStorage.setItem(inp.dataset.key, inp.value);
+    calculateTotal();
+  });
+});
+
+function downloadPDF(){
+  window.print();
+}
+
+loadValues();
+calculateTotal();
+</script>
+
+</body>
+</html>
